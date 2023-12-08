@@ -12,6 +12,7 @@ model Collection{
     name String
     createdAt DateTime
     coverImageURL String
+    listitems ListItem[]
 }
 
 // --- ListItem as Joined Table Inheritance Strategy Design ---
@@ -23,6 +24,8 @@ model ListItem{
     seriesItem SeriesItem?
     comicItem ComicItem?
     noteItem NoteItem?
+    collection Collection @relation(fields: [collectionId], references: [id])
+    collectionId String
 }
 
 model SeriesItem{

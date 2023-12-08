@@ -1,4 +1,5 @@
 import { gql } from "graphql-tag";
+import { SeriesItemTypeDef } from "../seriesitem";
 
 export const collectionTypeDef = gql`
     type Collection {
@@ -6,6 +7,7 @@ export const collectionTypeDef = gql`
         name: String
         createdAt: String
         coverImageURL: String
+        seriesItems: [SeriesItem]
     }
 
     input FindCollectionByIdInput {
@@ -27,6 +29,13 @@ export const collectionTypeDef = gql`
         collectionCreate(data: CollectionCreateDataInput): Collection
     }
 `;
+
+export interface Collection {
+    id: string;
+    name: String;
+    createdAt: String;
+    coverImageURL: String;
+}
 
 export interface CollectionQueryArgs {
     id?: string;
