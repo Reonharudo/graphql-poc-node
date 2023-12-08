@@ -28,6 +28,11 @@ export const collectionTypeDef = gql`
     }
 `;
 
+export interface CollectionQueryArgs {
+    id?: string;
+    name?: string;
+}
+
 export interface CreateCollectionDto {
     name: string;
     coverImageURL: string;
