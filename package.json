@@ -1,0 +1,39 @@
+{
+    "name": "graphql-poc-node",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start",
+        "lint": "next lint"
+    },
+    "prisma": {
+        "schema": "./src/app/api/graphql/database/schema.prisma"
+    },
+    "prettier": {
+        "trailingComma": "all",
+        "tabWidth": 4,
+        "semi": true,
+        "singleQuote": false
+    },
+    "dependencies": {
+        "@apollo/server": "^4.9.5",
+        "@as-integrations/next": "^3.0.0",
+        "@prisma/client": "^5.7.0",
+        "graphql": "^16.8.1",
+        "graphql-tag": "^2.12.6",
+        "next": "14.0.3",
+        "prisma": "^5.7.0",
+        "react": "^18",
+        "react-dom": "^18"
+    },
+    "devDependencies": {
+        "@types/node": "^20",
+        "@types/react": "^18",
+        "@types/react-dom": "^18",
+        "eslint": "^8",
+        "eslint-config-next": "14.0.3",
+        "typescript": "^5"
+    }
+}

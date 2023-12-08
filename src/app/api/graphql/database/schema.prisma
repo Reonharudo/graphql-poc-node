@@ -1,0 +1,73 @@
+datasource db {
+    provider = "mysql"
+    url      = env("MYSQL_EXCONNECTORDB_URL")
+}
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+model Collection{
+    id  String @id @default(uuid())
+    name String
+    createdAt DateTime
+    coverImageURL String
+}
+
+// --- ListItem as Joined Table Inheritance Strategy Design ---
+model ListItem{
+    id String @id @default(uuid())
+    name String 
+    coverImageURL String
+
+    seriesItem SeriesItem?
+    comicItem ComicItem?
+    noteItem NoteItem?
+}
+
+model SeriesItem{
+    id String @id @default(uuid())
+    listitemId String @unique
+    currentEpisode Int
+    totalEpisodes Int
+    status SeriesStatus
+
+    //relations
+    listItem ListItem @relation(fields: [listitemId], references: [id])
+}
+
+enum SeriesStatus {
+    COMPLETED 
+    WATCHING
+    PLAN_TO_WATCH
+    ON_HOLD
+    DROPPED
+}
+
+
+model ComicItem{
+    id String @id @default(uuid())
+    listitemId String @unique
+    currentEpisode Int
+    totalEpisodes Int
+    status SeriesStatus
+
+    //relations
+    listItem ListItem @relation(fields: [listitemId], references: [id])
+}
+
+enum ComicStatus {
+    COMPLETED 
+    READING
+    PLAN_TO_READ 
+    ON_HOLD 
+    DROPPED
+}
+
+
+model NoteItem{
+    id String @id @default(uuid())
+    listitemId String @unique
+    //relations
+    listItem ListItem @relation(fields: [listitemId], references: [id])
+}
