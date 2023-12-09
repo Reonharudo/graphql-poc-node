@@ -10,7 +10,4 @@ import { SeriesItemCRUD } from "../seriesitem/crud";
 export const CollectionResolver = {
     // here we only write a resolver for reviews and apollo server will create a default
     // resolver for other fields.
-    seriesItems: async (parent: Collection, _args: any) => {
-        return await SeriesItemCRUD.findAllSeriesItemsByCollectionID(parent.id);
-    },
 };

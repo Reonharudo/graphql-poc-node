@@ -1,0 +1,28 @@
+type Query
+type Mutation
+
+type Collection {
+    id: ID
+    name: String
+    createdAt: String
+    coverImageURL: String
+}
+
+input FindCollectionByIdInput {
+    id: String
+}
+
+input CollectionCreateDataInput {
+    name: String
+    coverImageURL: String
+}
+
+extend type Query {
+    collections: [Collection]
+    collection(id: ID, name: String, neuerarg: String): Collection
+    collectionById(data: FindCollectionByIdInput): Collection
+}
+
+extend type Mutation {
+    collectionCreate(data: CollectionCreateDataInput): Collection
+}
