@@ -1,0 +1,18 @@
+# This configuration file tells GraphQL Code Generator how
+# to generate types based on our schema.
+schema: "./src/**/*.ts"
+generates:
+    # Specify where the generated types should be generated.
+    ./src/__generated__/resolvers-types.ts:
+        plugins:
+            - typescript
+            # See more here: https://www.apollographql.com/docs/apollo-server/workflow/generate-types#adding-types-to-resolvers
+            - "typescript-resolvers"
+        config:
+            # See more here: https://the-guild.dev/graphql/codegen/plugins/typescript/typescript#maybevalue
+            maybeValue: "T | null | undefined"
+            # See more here: https://the-guild.dev/graphql/codegen/plugins/typescript/typescript#inputmaybevalue
+            inputMaybeValue: "T | null | undefined"
+            # See more here: https://the-guild.dev/graphql/codegen/plugins/typescript/typescript#enumvalues-enumvaluesmap
+            enumValues:
+                SeriesStatus: "@prisma/client/#SeriesStatus"

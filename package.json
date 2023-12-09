@@ -3,10 +3,12 @@
     "version": "0.1.0",
     "private": true,
     "scripts": {
-        "dev": "next dev",
-        "build": "next build",
-        "start": "next start",
-        "lint": "next lint"
+        "dev": "concurrently  --names \"CodeGen,Next\"  \"npm run graphql-codegen-generate:watch\"  \"next dev \"",
+        "build": "graphql-codegen-generate && next build",
+        "start": "graphql-codegen-generate && next start",
+        "lint": "next lint",
+        "graphql-codegen-generate": "graphql-codegen --config codegen.yml",
+        "graphql-codegen-generate:watch": "graphql-codegen --watch 'src/**/*.ts' --config codegen.yml"
     },
     "prisma": {
         "schema": "./src/app/api/graphql/database/schema.prisma"
@@ -29,6 +31,10 @@
         "react-dom": "^18"
     },
     "devDependencies": {
+        "@graphql-codegen/cli": "5.0.0",
+        "@graphql-codegen/typescript": "4.0.1",
+        "@graphql-codegen/typescript-resolvers": "4.0.1",
+        "@parcel/watcher": "^2.3.0",
         "@types/node": "^20",
         "@types/react": "^18",
         "@types/react-dom": "^18",
