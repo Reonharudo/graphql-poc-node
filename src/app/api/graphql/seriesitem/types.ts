@@ -1,17 +1,34 @@
 import { gql } from "graphql-tag";
 
 export const SeriesItemTypeDef = gql`
-    type SeriesItem {
-        id: ID
-        listItemID: ID
-        currentEpisode: Int
-        coverImageURL: String
+    type SeriesItem implements ListItem {
+        id: ID!
+        listItemId: ID!
+        name: String!
+        createdAt: String!
+        type: ListItemDiscriminatorType!
+        coverImageURL: String!
+
+        currentEpisode: Int!
+        totalEpisodes: Int!
+        status: SeriesStatus!
     }
 
-    input CreateSeriesItemInput {
-        listItemID: ID!
+    enum SeriesStatus {
+        COMPLETED
+        WATCHING
+        PLAN_TO_WATCH
+        ON_HOLD
+        DROPPED
+    }
+
+    input CreateSeriesItemDataInput {
+        collectionId: ID!
+        name: String!
         currentEpisode: Int!
+        totalEpisodes: Int!
         coverImageURL: String!
+        status: SeriesStatus!
     }
 
     extend type Query {
@@ -19,14 +36,6 @@ export const SeriesItemTypeDef = gql`
     }
 
     extend type Mutation {
-        createSeriesItem(
-            createSeriesItemInput: CreateSeriesItemInput
-        ): SeriesItem
+        createSeriesItem(data: CreateSeriesItemDataInput!): SeriesItem
     }
 `;
-
-export interface CreateSeriesInput {
-    listItemID: String;
-    currentEpisode: Number;
-    coverImageURL: String;
-}

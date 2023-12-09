@@ -20,6 +20,7 @@ model ListItem{
     id String @id @default(uuid())
     name String 
     coverImageURL String
+    createdAt   DateTime
 
     seriesItem SeriesItem?
     comicItem ComicItem?

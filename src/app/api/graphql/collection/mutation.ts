@@ -1,9 +1,13 @@
+import { CreateCollectionDataInput } from "@/__generated__/resolvers-types";
 import { CollectionCRUD } from "./crud";
-import { CreateCollectionDto } from "./types";
 
 export const CollectionMutation = {
-    collectionCreate: async (_: any, args: { data: CreateCollectionDto }) => {
+    createCollection: async (
+        _: any,
+        args: { data: CreateCollectionDataInput },
+    ) => {
         console.log("collectionCreate");
-        return await CollectionCRUD.create(args.data);
+        const createdCollection = await CollectionCRUD.create(args.data);
+        return createdCollection;
     },
 };

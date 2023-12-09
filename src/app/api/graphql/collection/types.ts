@@ -3,20 +3,22 @@ import { SeriesItemTypeDef } from "../seriesitem";
 
 export const collectionTypeDef = gql`
     type Collection {
-        id: ID
+        id: ID!
         name: String
         createdAt: String
         coverImageURL: String
-        seriesItems: [SeriesItem]
+        listItems: [ListItemUnion]!
     }
+
+    union ListItemUnion = SeriesItem
 
     input FindCollectionByIdInput {
         id: String
     }
 
-    input CollectionCreateDataInput {
-        name: String
-        coverImageURL: String
+    input CreateCollectionDataInput {
+        name: String!
+        coverImageURL: String!
     }
 
     extend type Query {
@@ -26,27 +28,6 @@ export const collectionTypeDef = gql`
     }
 
     extend type Mutation {
-        collectionCreate(data: CollectionCreateDataInput): Collection
+        createCollection(data: CreateCollectionDataInput): Collection!
     }
 `;
-
-export interface Collection {
-    id: string;
-    name: String;
-    createdAt: String;
-    coverImageURL: String;
-}
-
-export interface CollectionQueryArgs {
-    id?: string;
-    name?: string;
-}
-
-export interface CreateCollectionDto {
-    name: string;
-    coverImageURL: string;
-}
-
-export interface FindCollectionByIdDto {
-    id: string;
-}

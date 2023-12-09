@@ -1,22 +1,62 @@
+import {
+    CreateSeriesItemDataInput,
+    ListItemDiscriminatorType,
+    SeriesItem,
+} from "@/__generated__/resolvers-types";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
 export namespace SeriesItemCRUD {
-    export async function findAllSeriesItemsByCollectionID(
-        collectionID: string,
-    ) {
+    export async function create(
+        data: CreateSeriesItemDataInput,
+    ): Promise<SeriesItem> {
+        console.log("createSeriesItem", data);
         try {
-            const seriesItems = await prisma.listItem.findMany({
-                where: {
-                    collectionId: collectionID,
+            const {
+                collectionId,
+                name,
+                currentEpisode,
+                coverImageURL,
+                status,
+                totalEpisodes,
+            } = data;
+
+            const result = await prisma.listItem.create({
+                data: {
+                    id: crypto.randomUUID(),
+                    collectionId,
+                    name,
+                    coverImageURL,
+                    createdAt: new Date(),
+                    seriesItem: {
+                        create: {
+                            id: crypto.randomUUID(),
+                            currentEpisode,
+                            totalEpisodes,
+                            status,
+                        },
+                    },
                 },
                 include: {
                     seriesItem: true,
                 },
             });
 
-            return seriesItems.map((item) => item.seriesItem);
+            if (result.seriesItem) {
+                return {
+                    id: result.id,
+                    listItemId: result.seriesItem.id,
+                    name: result.name,
+                    createdAt: result.createdAt.toUTCString(),
+                    currentEpisode: result.seriesItem.currentEpisode,
+                    totalEpisodes: result.seriesItem.totalEpisodes,
+                    coverImageURL: result.coverImageURL,
+                    status: result.seriesItem.status,
+                    type: ListItemDiscriminatorType.Series,
+                };
+            }
+            throw "SeriesItem was null";
         } catch (error) {
             // Handle errors, log, or throw as needed
             console.error("Error fetching series items:", error);

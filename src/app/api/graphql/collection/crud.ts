@@ -1,12 +1,14 @@
+import { CreateCollectionDataInput } from "@/__generated__/resolvers-types";
 import { PrismaClient } from "@prisma/client";
 import crypto from "crypto";
-import { CreateCollectionDto } from "./types";
 
 const prisma = new PrismaClient();
 
 export namespace CollectionCRUD {
-    export async function create(createCollectionDto: CreateCollectionDto) {
-        await prisma.collection.create({
+    export async function create(
+        createCollectionDto: CreateCollectionDataInput,
+    ) {
+        return await prisma.collection.create({
             data: {
                 id: crypto.randomUUID(),
                 createdAt: new Date(),
