@@ -16,9 +16,11 @@ import { ListItemTypeDef } from "./listitem";
 import {
     ListItemDiscriminatorType,
     ListItemUnion,
+    Resolvers,
 } from "@/__generated__/resolvers-types";
+import { dateScalar } from "./shared/dateScalar";
 
-const resolvers = {
+const resolvers: Resolvers = {
     // here we only write a resolver for reviews and apollo server will create a default
     // resolver for other fields.
     ListItemUnion: {
@@ -41,6 +43,7 @@ const resolvers = {
     Collection: {
         ...CollectionResolver,
     },
+    Date: dateScalar,
 };
 
 const typeDefs = gql`

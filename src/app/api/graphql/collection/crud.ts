@@ -1,4 +1,7 @@
-import { CreateCollectionDataInput } from "@/__generated__/resolvers-types";
+import {
+    Collection,
+    CreateCollectionDataInput,
+} from "@/__generated__/resolvers-types";
 import { PrismaClient } from "@prisma/client";
 import crypto from "crypto";
 
@@ -17,26 +20,49 @@ export namespace CollectionCRUD {
         });
     }
 
-    export async function getAll() {
+    export async function getAll(): Promise<Collection[]> {
         console.log("getAll()");
-        return await prisma.collection.findMany();
+        const collections = await prisma.collection.findMany();
+        const collectionsWithEmptyListItems = collections.map((collection) => ({
+            ...collection,
+            listItems: [],
+        }));
+        return collectionsWithEmptyListItems;
     }
 
-    export async function findById(id: string) {
+    export async function findByIdWithEmptyListItems(
+        id: string,
+    ): Promise<Collection> {
         console.log("findById()", id);
-        return await prisma.collection.findFirst({
+        const collection = await prisma.collection.findFirstOrThrow({
             where: {
                 id,
             },
         });
+
+        const collectionWithEmptyListItems = {
+            ...collection,
+            listItems: [],
+        };
+
+        return collectionWithEmptyListItems;
     }
 
-    export async function findByName(name: string) {
+    export async function findByNameWithEmptyListItems(
+        name: string,
+    ): Promise<Collection> {
         console.log("findById()", name);
-        return await prisma.collection.findFirst({
+        const collection = await prisma.collection.findFirstOrThrow({
             where: {
                 name,
             },
         });
+
+        const collectionWithEmptyListItems = {
+            ...collection,
+            listItems: [],
+        };
+
+        return collectionWithEmptyListItems;
     }
 }

@@ -14,6 +14,6 @@ export const CollectionResolver = {
         if (parent) {
             return await ListItemCRUD.findAllListItems(parent.id);
         }
-        console.log(parent);
+        return [];
     },
 };

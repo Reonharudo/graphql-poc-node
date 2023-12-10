@@ -5,10 +5,12 @@ export const collectionTypeDef = gql`
     type Collection {
         id: ID!
         name: String
-        createdAt: String
+        createdAt: Date
         coverImageURL: String
         listItems: [ListItemUnion]!
     }
+
+    scalar Date
 
     union ListItemUnion = SeriesItem
 

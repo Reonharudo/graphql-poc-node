@@ -12,7 +12,7 @@ model Collection{
     name String
     createdAt DateTime
     coverImageURL String
-    listitems ListItem[]
+    listItems ListItem[]
 }
 
 // --- ListItem as Joined Table Inheritance Strategy Design ---
