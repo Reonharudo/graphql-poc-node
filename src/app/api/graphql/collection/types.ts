@@ -30,6 +30,6 @@ export const collectionTypeDef = gql`
     }
 
     extend type Mutation {
-        createCollection(data: CreateCollectionDataInput): Collection!
+        createCollection(data: CreateCollectionDataInput!): Collection
     }
 `;

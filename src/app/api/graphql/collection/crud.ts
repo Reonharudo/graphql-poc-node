@@ -11,13 +11,23 @@ export namespace CollectionCRUD {
     export async function create(
         createCollectionDto: CreateCollectionDataInput,
     ) {
-        return await prisma.collection.create({
+        const collection = await prisma.collection.create({
             data: {
                 id: crypto.randomUUID(),
                 createdAt: new Date(),
                 ...createCollectionDto,
             },
+            include: {
+                listItems: true,
+            },
         });
+
+        const collectionWithEmptyListItems = {
+            ...collection,
+            listItems: [],
+        };
+
+        return collectionWithEmptyListItems;
     }
 
     export async function getAll(): Promise<Collection[]> {

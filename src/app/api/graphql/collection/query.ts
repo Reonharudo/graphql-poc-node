@@ -3,7 +3,16 @@ import { CollectionCRUD } from "./crud";
 
 export const CollectionQuery = {
     //GraphQL Standard is to mark _parent and _args with any if its not needed
-    collections: async (_parent: any) => {
+    collections: async (
+        _parent: any,
+        _args: any,
+        _context: any,
+        info: any,
+    ): Promise<Collection[]> => {
+        const requestedFields = info.fieldNodes[0].selectionSet.selections.map(
+            (field: any) => field.name.value,
+        );
+        console.log(requestedFields);
         return await CollectionCRUD.getAll();
     },
     collection: async (_parent: any, args: any): Promise<Collection | null> => {
