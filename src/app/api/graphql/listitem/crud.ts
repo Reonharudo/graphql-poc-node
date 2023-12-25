@@ -55,8 +55,6 @@ export namespace ListItemCrud {
                 where: {
                     collectionId,
                 },
-                skip: after ? 1 : 0, //skip the cursor : 0
-                cursor: after ? { id: after } : undefined,
             }),
             prisma.listItem.findMany({
                 where: {
