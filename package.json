@@ -11,7 +11,7 @@
         "graphql-codegen-generate:watch": "graphql-codegen --watch 'src/**/*.ts' --config codegen.yml"
     },
     "prisma": {
-        "schema": "./src/app/api/graphql/database/schema.prisma"
+        "schema": "./src/app/api/graphql/datasource/database/schema.prisma"
     },
     "prettier": {
         "trailingComma": "all",
