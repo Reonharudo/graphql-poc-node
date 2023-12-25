@@ -37,56 +37,56 @@ export namespace ListItemCrud {
         first: number = 10,
         after: string | null = null,
     ): Promise<ListItemConnection> {
-        const fetchListItemsStmt = prisma.listItem.findMany({
-            where: {
-                collectionId,
-            },
-            take: first,
-            skip: after ? 1 : 0, //skip the cursor : 0
-            cursor: after ? { id: after } : undefined,
-            include: {
-                seriesItem: true,
-                comicItem: true,
-                noteItem: true,
-            },
-            orderBy: {
-                orderNr: "asc",
-            },
-        });
-
-        const fetchListItemsCountStmt = prisma.listItem.count({
-            where: {
-                collectionId,
-            },
-            skip: after ? 1 : 0, //skip the cursor : 0
-            cursor: after ? { id: after } : undefined,
-        });
-
-        const fetchListItemsTotalCountStmt = prisma.listItem.count({
-            where: {
-                collectionId,
-            },
-            skip: after ? 1 : 0, //skip the cursor : 0
-            cursor: after ? { id: after } : undefined,
-        });
-
+        try {
+        } catch (err) {}
         const [
             fetchedListItemsCount,
             fetchedListItemsTotalCount,
             fetchedListItems,
         ] = await prisma.$transaction([
-            fetchListItemsCountStmt,
-            fetchListItemsTotalCountStmt,
-            fetchListItemsStmt,
+            prisma.listItem.count({
+                where: {
+                    collectionId,
+                },
+                skip: after ? 1 : 0, //skip the cursor : 0
+                cursor: after ? { id: after } : undefined,
+            }),
+            prisma.listItem.count({
+                where: {
+                    collectionId,
+                },
+                skip: after ? 1 : 0, //skip the cursor : 0
+                cursor: after ? { id: after } : undefined,
+            }),
+            prisma.listItem.findMany({
+                where: {
+                    collectionId,
+                },
+                take: first,
+                skip: after ? 1 : 0, //skip the cursor : 0
+                cursor: after ? { id: after } : undefined,
+                include: {
+                    seriesItem: true,
+                    comicItem: true,
+                    noteItem: true,
+                },
+                orderBy: {
+                    orderNr: "asc",
+                },
+            }),
         ]);
 
         const parsedListItems = parseListItems(fetchedListItems);
+
+        const lastListItem = parsedListItems[parsedListItems.length - 1];
 
         return {
             edges: parsedListItems,
             pageInfo: {
                 hasNextPage: fetchedListItemsCount > first,
-                endCursor: parsedListItems[parsedListItems.length].node.id,
+                endCursor: lastListItem
+                    ? parsedListItems[parsedListItems.length - 1].node.id
+                    : null,
             },
             totalCount: fetchedListItemsTotalCount,
         };
@@ -95,6 +95,7 @@ export namespace ListItemCrud {
     function parseListItems(
         listItems: CollectionWithListItems["listItems"],
     ): ListItemEdge[] {
+        console.log("parseListItems");
         const parsedListItems: ListItemEdge[] = []; //add types here e.g ComicItem etc.
 
         for (const item of listItems) {
@@ -109,6 +110,7 @@ export namespace ListItemCrud {
                     currentEpisode: item.seriesItem.currentEpisode,
                     totalEpisodes: item.seriesItem.totalEpisodes,
                     status: item.seriesItem.status,
+                    orderNr: item.orderNr,
                 };
 
                 parsedListItems.push({
@@ -123,7 +125,7 @@ export namespace ListItemCrud {
                 );
             }
         }
-
+        console.log(parsedListItems);
         return parsedListItems;
     }
 }

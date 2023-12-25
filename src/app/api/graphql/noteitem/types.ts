@@ -8,5 +8,6 @@ export const noteItemTypeDef = gql`
         createdAt: String!
         type: ListItemDiscriminatorType!
         coverImageURL: String!
+        orderNr: Int!
     }
 `;

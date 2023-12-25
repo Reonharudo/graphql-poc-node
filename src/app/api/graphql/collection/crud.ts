@@ -24,7 +24,7 @@ export namespace CollectionCRUD {
 
         const collectionWithEmptyListItems = {
             ...collection,
-            listItems: [],
+            listItems: null,
         };
 
         return collectionWithEmptyListItems;
@@ -35,7 +35,7 @@ export namespace CollectionCRUD {
         const collections = await prisma.collection.findMany();
         const collectionsWithEmptyListItems = collections.map((collection) => ({
             ...collection,
-            listItems: [],
+            listItems: null,
         }));
         return collectionsWithEmptyListItems;
     }
@@ -52,7 +52,7 @@ export namespace CollectionCRUD {
 
         const collectionWithEmptyListItems = {
             ...collection,
-            listItems: [],
+            listItems: null,
         };
 
         return collectionWithEmptyListItems;
@@ -70,7 +70,7 @@ export namespace CollectionCRUD {
 
         const collectionWithEmptyListItems = {
             ...collection,
-            listItems: [],
+            listItems: null,
         };
 
         return collectionWithEmptyListItems;

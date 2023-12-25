@@ -20,6 +20,7 @@ export namespace SeriesItemCRUD {
                 coverImageURL,
                 status,
                 totalEpisodes,
+                orderNr,
             } = data;
 
             const result = await prisma.listItem.create({
@@ -37,6 +38,7 @@ export namespace SeriesItemCRUD {
                             status,
                         },
                     },
+                    orderNr,
                 },
                 include: {
                     seriesItem: true,
@@ -54,6 +56,7 @@ export namespace SeriesItemCRUD {
                     coverImageURL: result.coverImageURL,
                     status: result.seriesItem.status,
                     type: ListItemDiscriminatorType.Series,
+                    orderNr: result.orderNr,
                 };
             }
             throw "SeriesItem was null";

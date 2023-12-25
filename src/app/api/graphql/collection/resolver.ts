@@ -29,6 +29,7 @@ export const CollectionResolver = {
                 first ?? 10,
                 after,
             );
+        console.log(result, "Items found");
         return result;
     },
 };

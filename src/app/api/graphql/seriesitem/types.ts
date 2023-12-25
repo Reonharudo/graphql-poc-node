@@ -12,6 +12,7 @@ export const SeriesItemTypeDef = gql`
         currentEpisode: Int!
         totalEpisodes: Int!
         status: SeriesStatus!
+        orderNr: Int!
     }
 
     enum SeriesStatus {
@@ -29,6 +30,7 @@ export const SeriesItemTypeDef = gql`
         totalEpisodes: Int!
         coverImageURL: String!
         status: SeriesStatus!
+        orderNr: Int!
     }
 
     extend type Query {

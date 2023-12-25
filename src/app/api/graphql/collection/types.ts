@@ -14,7 +14,7 @@ export const collectionTypeDef = gql`
         "URL to the cover image"
         coverImageURL: String
         "Array of list items"
-        listItems(first: Int, after: String): ListItemConnection!
+        listItems(first: Int, after: String): ListItemConnection
     }
 
     type ListItemConnection {
