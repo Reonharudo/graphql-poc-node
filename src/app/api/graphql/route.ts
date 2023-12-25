@@ -1,26 +1,27 @@
 import { startServerAndCreateNextHandler } from "@as-integrations/next";
 import { ApolloServer } from "@apollo/server";
 import { gql } from "graphql-tag";
-import {
-    CollectionMutation,
-    CollectionQuery,
-    collectionTypeDef,
-    CollectionResolver,
-} from "./collection";
-import {
-    SeriesItemTypeDef,
-    SeriesItemMutation,
-    SeriesItemQuery,
-} from "./seriesitem";
-import { ListItemTypeDef } from "./listitem";
+
 import {
     ListItemDiscriminatorType,
     ListItemUnion,
     Resolvers,
 } from "@/__generated__/resolvers-types";
-import { dateScalar } from "./shared/dateScalar";
-import { noteItemTypeDef } from "./noteitem";
-import { paginationType } from "./shared/pagination";
+import {
+    CollectionQuery,
+    CollectionMutation,
+    CollectionResolver,
+    collectionTypeDef,
+} from "./schema/collection";
+import { ListItemTypeDef } from "./schema/listitem";
+import { noteItemTypeDef } from "./schema/noteitem";
+import {
+    SeriesItemQuery,
+    SeriesItemMutation,
+    SeriesItemTypeDef,
+} from "./schema/seriesitem";
+import { dateScalar } from "./schema/shared/dateScalar";
+import { paginationType } from "./schema/shared/pagination";
 
 const resolvers: Resolvers = {
     // here we only write a resolver for reviews and apollo server will create a default
