@@ -1,21 +1,39 @@
 import { gql } from "graphql-tag";
-import { SeriesItemTypeDef } from "../seriesitem";
 
 export const collectionTypeDef = gql`
+    """
+    A Collection contains multiple ListItems.
+    """
     type Collection {
+        "The id of the collection"
         id: ID!
+        "The name of the collection"
         name: String
+        "The creation date"
         createdAt: Date
+        "URL to the cover image"
         coverImageURL: String
-        listItems: [ListItemUnion]!
+        "Array of list items"
+        listItems(first: Int, after: String): ListItemConnection!
+    }
+
+    type ListItemConnection {
+        edges: [ListItemEdge]!
+        pageInfo: PageInfo!
+        totalCount: Int!
+    }
+
+    type ListItemEdge {
+        node: ListItemUnion!
+        cursor: String!
     }
 
     scalar Date
 
-    union ListItemUnion = SeriesItem
+    union ListItemUnion = SeriesItem | NoteItem
 
     input FindCollectionByIdInput {
-        id: String
+        id: String!
     }
 
     input CreateCollectionDataInput {
@@ -26,7 +44,7 @@ export const collectionTypeDef = gql`
     extend type Query {
         collections: [Collection]
         collection(id: ID, name: String): Collection
-        collectionById(data: FindCollectionByIdInput): Collection
+        collectionById(data: FindCollectionByIdInput!): Collection
     }
 
     extend type Mutation {

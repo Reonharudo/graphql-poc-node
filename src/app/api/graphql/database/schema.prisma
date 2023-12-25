@@ -21,6 +21,7 @@ model ListItem{
     name String 
     coverImageURL String
     createdAt   DateTime
+    orderNr Int
 
     seriesItem SeriesItem?
     comicItem ComicItem?

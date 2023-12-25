@@ -1,5 +1,11 @@
-import { Collection } from "@/__generated__/resolvers-types";
+import {
+    Collection,
+    QueryCollectionArgs,
+    QueryCollectionByIdArgs,
+} from "@/__generated__/resolvers-types";
 import { CollectionCRUD } from "./crud";
+import { GraphQLResolveInfo } from "graphql";
+import { getRequestedFields } from "../utils/utils";
 
 export const CollectionQuery = {
     //GraphQL Standard is to mark _parent and _args with any if its not needed
@@ -7,15 +13,14 @@ export const CollectionQuery = {
         _parent: any,
         _args: any,
         _context: any,
-        info: any,
+        _info: any,
     ): Promise<Collection[]> => {
-        const requestedFields = info.fieldNodes[0].selectionSet.selections.map(
-            (field: any) => field.name.value,
-        );
-        console.log(requestedFields);
         return await CollectionCRUD.getAll();
     },
-    collection: async (_parent: any, args: any): Promise<Collection | null> => {
+    collection: async (
+        _parent: any,
+        args: QueryCollectionArgs,
+    ): Promise<Collection | null> => {
         const { id, name } = args;
 
         if (id) {
@@ -29,9 +34,9 @@ export const CollectionQuery = {
     },
     collectionById: async (
         _parent: any,
-        _args: any,
+        args: QueryCollectionByIdArgs,
     ): Promise<Collection | null> => {
-        const { id } = _args;
+        const { id } = args.data;
 
         return await CollectionCRUD.findByIdWithEmptyListItems(id);
     },

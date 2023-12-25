@@ -19,6 +19,8 @@ import {
     Resolvers,
 } from "@/__generated__/resolvers-types";
 import { dateScalar } from "./shared/dateScalar";
+import { noteItemTypeDef } from "./noteitem";
+import { paginationType } from "./shared/pagination";
 
 const resolvers: Resolvers = {
     // here we only write a resolver for reviews and apollo server will create a default
@@ -53,6 +55,8 @@ const typeDefs = gql`
     ${collectionTypeDef}
     ${ListItemTypeDef}
     ${SeriesItemTypeDef}
+    ${noteItemTypeDef}
+    ${paginationType}
 `;
 
 const server = new ApolloServer({
